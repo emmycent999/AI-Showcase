@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
     SquareUser, Activity, Layers, Box, ScanSearch, Binary,
-    CloudDownload, Dna, Calendar, TrendingUp, Mail, Send, Plus, Trash2, BarChart3
+    CloudDownload, Dna, Calendar, Mail, Send, Plus, Trash2, BarChart3
 } from 'lucide-react';
 import { API_ENDPOINTS } from '../config/api';
 
@@ -85,11 +85,8 @@ const Admin = () => {
         participants: registrations.filter(r => r.type === 'Participant').length,
         organizers: registrations.filter(r => r.type === 'Organizer').length,
         alumni: registrations.filter(r => r.type === 'Alumni').length,
-        totalVotes: Object.keys(localStorage).filter(key => key === 'hasVoted').length, // Simple count for users who voted
+        totalVotes: Object.keys(localStorage).filter(key => key === 'hasVoted').length,
     };
-
-    // Calculate project votes
-    const hasVoted = localStorage.getItem('hasVoted');
 
     const sendCertificate = async (userId: string, email: string) => {
         setSendingCert(userId);

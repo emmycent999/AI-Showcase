@@ -4,7 +4,6 @@ import VotingCard from './components/VotingCard';
 import { 
   CheckCircle, 
   AlertCircle, 
-  Clock, 
   Users, 
   Target,
   Shield,

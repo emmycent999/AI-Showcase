@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle, XCircle, Shield, Calendar, MapPin, Building2, Award } from 'lucide-react';
+import { CheckCircle, XCircle, Shield, Calendar, Building2, Award } from 'lucide-react';
 import { API_ENDPOINTS } from '../config/api';
 
 const Validate = () => {
