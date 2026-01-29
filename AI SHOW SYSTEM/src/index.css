@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+@theme {
+  --color-showcase-blue: #1a3c5e;
+  --color-showcase-cyan: #00f7ff;
+  --color-showcase-dark: #05070a;
+  --color-showcase-gray: #c0c0c0;
+
+  --color-veritas-green: #006838;
+  --color-veritas-dark: #0a0f1c;
+  --color-veritas-blue: #1e3a8a;
+
+  --color-neon-cyan: #00f7ff;
+  --color-neon-blue: #2dd4bf;
+  --color-neon-purple: #a855f7;
+
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-showcase-dark text-gray-100 antialiased overflow-x-hidden;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/5 backdrop-blur-md border border-white/10;
+  }
+
+  .glass-dark {
+    @apply bg-black/40 backdrop-blur-lg border border-white/5;
+  }
+
+  .text-gradient {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-white via-white/80 to-gray-400;
+  }
+
+  .text-neon {
+    @apply text-showcase-cyan;
+    filter: drop-shadow(0 0 8px rgba(0, 247, 255, 0.5));
+  }
+
+  .text-outline-white {
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+    color: transparent;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

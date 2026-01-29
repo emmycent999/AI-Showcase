@@ -1,0 +1,66 @@
+.countdown-timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.time-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 10px;
+  min-width: 80px;
+}
+
+.time-value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  font-family: 'Courier New', monospace;
+}
+
+.time-label {
+  font-size: 0.7rem;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 0.25rem;
+}
+
+.time-separator {
+  font-size: 2rem;
+  color: #667eea;
+  font-weight: bold;
+  margin: 0 0.25rem;
+}
+
+.countdown-timer.expired {
+  background: rgba(255, 0, 0, 0.1);
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.countdown-timer.expired h3 {
+  color: #ff6b6b;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .countdown-timer {
+    gap: 0.25rem;
+  }
+  
+  .time-unit {
+    min-width: 60px;
+    padding: 0.5rem;
+  }
+  
+  .time-value {
+    font-size: 1.5rem;
+  }
+}
