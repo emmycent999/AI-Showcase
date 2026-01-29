@@ -1,5 +1,7 @@
 # Deployment Guide
 
+**IMPORTANT**: Use the `AI SHOW SYSTEM` folder for frontend deployment (not `client` folder).
+
 ## 1. GitHub Setup
 
 ```bash
@@ -18,12 +20,12 @@ git push -u origin main
 2. Click "Add New" → "Project"
 3. Import your GitHub repository
 4. Configure:
-   - **Framework Preset**: Create React App
-   - **Root Directory**: `client`
+   - **Framework Preset**: Vite
+   - **Root Directory**: `AI SHOW SYSTEM`
    - **Build Command**: `npm run build`
-   - **Output Directory**: `build`
+   - **Output Directory**: `dist`
 5. Add Environment Variable:
-   - `REACT_APP_API_URL` = Your App Runner URL (add after backend deployment)
+   - `VITE_API_URL` = Your App Runner URL (add after backend deployment)
 6. Click "Deploy"
 
 ## 3. AWS App Runner Deployment (Backend)
@@ -44,10 +46,12 @@ git push -u origin main
    - Branch: `main`
    - Source directory: `server`
 4. **Build settings**:
-   - Runtime: Node.js 16
-   - Build command: `npm install`
-   - Start command: `node index.js`
-   - Port: `5000`
+   - Configuration file: Use configuration file (apprunner.yaml)
+   - OR Manual:
+     - Runtime: Node.js 22
+     - Build command: `npm install`
+     - Start command: `node index.js`
+     - Port: `5000`
 5. **Service settings**:
    - Service name: `ai-showcase-backend`
    - CPU: 1 vCPU
@@ -72,7 +76,7 @@ git push -u origin main
 
 Create `server/Dockerfile`:
 ```dockerfile
-FROM node:16-alpine
+FROM node:22-alpine
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
@@ -87,7 +91,7 @@ Then follow Option A but select "Container registry" instead.
 
 1. Go back to Vercel
 2. Settings → Environment Variables
-3. Add/Update: `REACT_APP_API_URL` = Your App Runner URL
+3. Add/Update: `VITE_API_URL` = Your App Runner URL
 4. Redeploy
 
 ## 5. Certificate Templates
