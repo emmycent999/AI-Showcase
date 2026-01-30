@@ -15,7 +15,7 @@ const Admin = () => {
     const [teams, setTeams] = useState<any[]>([]);
     const [votes, setVotes] = useState<any[]>([]);
     const [showTeamForm, setShowTeamForm] = useState(false);
-    const [newTeam, setNewTeam] = useState({ name: '', category: '', description: '', color: '#3b82f6' });
+    const [newTeam, setNewTeam] = useState({ name: '', category: '', description: '', color: '#3b82f6', logo: null as File | null });
     const [activeTab, setActiveTab] = useState<'registrations' | 'teams' | 'voting'>('registrations');
 
     useEffect(() => {
@@ -144,14 +144,22 @@ const Admin = () => {
         }
         console.log('Adding team:', newTeam);
         try {
+            const formData = new FormData();
+            formData.append('name', newTeam.name);
+            formData.append('category', newTeam.category);
+            formData.append('description', newTeam.description);
+            formData.append('color', newTeam.color);
+            if (newTeam.logo) {
+                formData.append('logo', newTeam.logo);
+            }
+            
             const res = await fetch(API_ENDPOINTS.teams, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
                     email: 'admin',
                     password: 'veritas2026'
                 },
-                body: JSON.stringify(newTeam)
+                body: formData
             });
             console.log('Add team response:', res.status);
             
@@ -159,7 +167,7 @@ const Admin = () => {
                 const data = await res.json();
                 console.log('Team added:', data);
                 setTeams([...teams, data.data]);
-                setNewTeam({ name: '', category: '', description: '', color: '#3b82f6' });
+                setNewTeam({ name: '', category: '', description: '', color: '#3b82f6', logo: null });
                 setShowTeamForm(false);
                 alert('Team added successfully!');
             } else {
@@ -360,6 +368,10 @@ const Admin = () => {
                                     <input placeholder="Category" value={newTeam.category} onChange={(e) => setNewTeam({...newTeam, category: e.target.value})} className="glass-dark border border-white/10 rounded-xl px-4 py-3 text-white" />
                                 </div>
                                 <textarea placeholder="Description" value={newTeam.description} onChange={(e) => setNewTeam({...newTeam, description: e.target.value})} className="w-full glass-dark border border-white/10 rounded-xl px-4 py-3 text-white mb-4" rows={3} />
+                                <div className="mb-4">
+                                    <label className="block text-gray-400 text-sm mb-2">Team Logo</label>
+                                    <input type="file" accept="image/*" onChange={(e) => setNewTeam({...newTeam, logo: e.target.files?.[0] || null})} className="glass-dark border border-white/10 rounded-xl px-4 py-3 text-white w-full" />
+                                </div>
                                 <div className="flex gap-4">
                                     <input type="color" value={newTeam.color} onChange={(e) => setNewTeam({...newTeam, color: e.target.value})} className="w-20 h-12 rounded-xl" />
                                     <button onClick={addTeam} className="px-6 py-3 bg-showcase-cyan text-showcase-dark font-bold rounded-xl">Save Team</button>
@@ -371,7 +383,13 @@ const Admin = () => {
                             {teams.map(team => (
                                 <div key={team.id} className="glass p-6 rounded-xl border-white/10">
                                     <div className="flex justify-between items-start mb-4">
-                                        <div className="w-4 h-4 rounded-full" style={{backgroundColor: team.color}} />
+                                        <div className="flex items-center gap-3">
+                                            {team.logo_url ? (
+                                                <img src={team.logo_url} alt={team.name} className="w-12 h-12 rounded-lg object-cover" />
+                                            ) : (
+                                                <div className="w-4 h-4 rounded-full" style={{backgroundColor: team.color}} />
+                                            )}
+                                        </div>
                                         <button onClick={() => deleteTeam(team.id)} className="text-red-500 hover:text-red-400">
                                             <Trash2 size={16} />
                                         </button>

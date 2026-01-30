@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Vote as VoteIcon, CheckCircle, Loader2, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -10,8 +10,14 @@ const Vote = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [message, setMessage] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
+    const [teams, setTeams] = useState<any[]>([]);
 
-    const teams = ['Team Alpha', 'Team Beta', 'Team Gamma', 'Team Delta', 'Team Epsilon'];
+    useEffect(() => {
+        fetch(API_ENDPOINTS.teams)
+            .then(res => res.json())
+            .then(data => setTeams(data))
+            .catch(err => console.error('Failed to fetch teams:', err));
+    }, []);
 
     const handleVote = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -107,17 +113,34 @@ const Vote = () => {
 
                         <div className="mb-5">
                             <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2 px-1">Select Team</label>
-                            <select
-                                required
-                                value={teamName}
-                                onChange={(e) => setTeamName(e.target.value)}
-                                className="w-full glass-dark border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-showcase-cyan/50 transition-all duration-300"
-                            >
-                                <option value="">Choose a team</option>
+                            <div className="grid grid-cols-1 gap-3">
                                 {teams.map(team => (
-                                    <option key={team} value={team}>{team}</option>
+                                    <label key={team.id} className={`glass-dark border rounded-xl p-4 cursor-pointer transition-all ${
+                                        teamName === team.name ? 'border-showcase-cyan bg-showcase-cyan/10' : 'border-white/10 hover:border-white/20'
+                                    }`}>
+                                        <input
+                                            type="radio"
+                                            name="team"
+                                            value={team.name}
+                                            checked={teamName === team.name}
+                                            onChange={(e) => setTeamName(e.target.value)}
+                                            className="hidden"
+                                        />
+                                        <div className="flex items-center gap-4">
+                                            {team.logo_url ? (
+                                                <img src={team.logo_url} alt={team.name} className="w-12 h-12 rounded-lg object-cover" />
+                                            ) : (
+                                                <div className="w-12 h-12 rounded-lg" style={{backgroundColor: team.color}} />
+                                            )}
+                                            <div className="flex-1">
+                                                <h3 className="text-white font-bold">{team.name}</h3>
+                                                <p className="text-xs text-gray-400">{team.category}</p>
+                                            </div>
+                                            {teamName === team.name && <CheckCircle className="w-5 h-5 text-showcase-cyan" />}
+                                        </div>
+                                    </label>
                                 ))}
-                            </select>
+                            </div>
                         </div>
 
                         <button
