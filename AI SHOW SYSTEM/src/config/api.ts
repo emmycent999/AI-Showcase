@@ -1,4 +1,4 @@
-export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+export const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://23n4rsrhti.us-east-1.awsapprunner.com';
 
 export const API_ENDPOINTS = {
   register: `${API_BASE_URL}/api/register`,
